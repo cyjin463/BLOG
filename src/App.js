@@ -67,7 +67,7 @@ function App() {
             {modal === true ? (
                 <Modal titleList={titleList} currentTitle={currentTitle} setModal={setModal} />
             ) : null}
-
+            <Modal3 />
             {/* class 컴포넌트 <Modal2></Modal2> */}
         </div>
     );
@@ -89,31 +89,56 @@ function Modal(props) {
     );
 }
 
-//class 컴포넌트
-class Modal2 extends React.Component {
-    // 기본 작성
-    constructor(props) {
-        super(props);
-        //state 생성
-        this.state = {
-            name: "kim",
-            age: 20,
-        };
-    }
-    render() {
-        return (
-            <div>
-                안녕! {this.state.age}
-                <button
-                    onClick={() => {
-                        //state 변경
-                        this.setState({ age: 21 });
-                    }}>
-                    버튼
-                </button>
-            </div>
-        );
-    }
-}
+function Modal3() {
+    let refreshToken = "있다";
+    let accessToken = "있다";
+    let possibleToken = true;
+    let hasError = true;
 
+    const checkToken = () => {
+        if (refreshToken && accessToken) {
+            console.log("토큰 유무 확인");
+            if (possibleToken) {
+                console.log("사용가능 토큰");
+                console.log("다른작업 1");
+                console.log("다른작업 2");
+                getData(hasError)
+                    .then((result) => {
+                        console.log(result);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        if (!err) {
+                            return console.log("데이터 처리 오류");
+                        }
+                        newToken();
+                    });
+                console.log("다른작업 3");
+            } else {
+                newToken();
+            }
+        } else {
+            newToken();
+        }
+    };
+
+    const getData = (hasError) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (hasError) {
+                    reject(false);
+                } else {
+                    resolve("데이터 처리");
+                }
+            }, [3000]);
+        });
+    };
+
+    const newToken = () => {
+        console.log("ID, PW 입력중입니다.");
+        setTimeout(() => {
+            console.log("새로운 토큰 발급");
+        }, [2000]);
+    };
+}
 export default App;
